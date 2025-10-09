@@ -27,8 +27,7 @@ ADC = 0;
 
 Tg0 = parWT_Init.xu0(2);
 wg0 = parWT_Init.x0WT(8);
-% dqdTg = 1/(parDC.uDC0*parDC.C)*wg0;
-% dqdwg = 1/(parDC.uDC0*parDC.C)*Tg0;
+
 PowerScale = 5e6/parWT.Pmax;
 dqdTg = 1/(parDC.uDC0*parDC.C)*PowerScale*wg0;
 dqdwg = 1/(parDC.uDC0*parDC.C)*PowerScale*Tg0;
@@ -115,14 +114,8 @@ A_WT_Act_DC_Inv(end-2,13:end) = -PS/(parDC.uDC0*parDC.C).*CxInvP;
 % Change output matrix to accomadate the new dimension of d -> 3x1 to 2x1
 Cd_WT_Act_DC_Inv(:,1) = [];
 
-
 % Start adding controllers into the state matrix
-
 % Add Pitch and Torque rotor speed controller
-% AwrCntrl = [-KWT(1,1)/tauPitchR;
-%  -KWT(2,1)/tauTg];
-% A_WT_Act_DC_Inv_cmp = A_WT_Act_DC_Inv;
-% A_WT_Act_DC_Inv_cmp(1:2,9) = AwrCntrl;
 
 % For the 4 inputs that are the proportional part
 BStateCntrlIntegration = B_WT_Act_DC_Inv(:,1:4);
@@ -149,10 +142,6 @@ Bd_WT_Act_DC_Inv = [Bd_WT_Act_DC_Inv;
                     zeros(1,width(Bd_WT_Act_DC_Inv))];
 Cx_WT_Act_DC_Inv = [Cx_WT_Act_DC_Inv, ...
                     zeros(height(Cx_WT_Act_DC_Inv),1)];
-% Cu_WT_Act_DC_Inv = [Cu_WT_Act_DC_Inv, ...
-%                     zeros(height(Cu_WT_Act_DC_Inv),1)];
-% Cd_WT_Act_DC_Inv = [Cd_WT_Act_DC_Inv, ...
-%                     zeros(height(Cd_WT_Act_DC_Inv),1)];
 
 xInit_WT_Act_DC_Inv = [parWT_Init.xu0; parWT_Init.x0WT; ...
                         parDC.uDC0; parInvLinMdl.x0; 0];
@@ -162,9 +151,6 @@ a0_WT_Act_DC_Inv = [zeros(12,1);parInvLinMdl.a0;0];
 KuDC = [zeros(1,11),KpuDC,zeros(1,2),-KiuDC];
 
 A_WT_Act_DC_Inv = A_WT_Act_DC_Inv-B_WT_Act_DC_Inv(:,2)*KuDC;
-
-%% Ab hier ist Irgendwo der Fehler
-% Integration of angle generation dynamics into the state space model
 
 % Scaling for deltaP and sign change
 sc = -1/p.SInvRated;

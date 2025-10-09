@@ -36,7 +36,7 @@ load parWT_Init.mat
 % 8: FNN f Ramp
 % 14: 0.15 Hz Oscillation of Angle with 0.2 degree amplitude
 % 98: Sine Sweep
-p.TestCase.Nr = 1;
+p.TestCase.Nr = 4;
 p.TestCase.direction = "pos";
 p = loadTestCasesWiW2025(p);
 
